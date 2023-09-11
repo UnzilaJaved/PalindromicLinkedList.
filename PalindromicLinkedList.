@@ -1,0 +1,91 @@
+#include<iostream>
+using namespace std;
+
+class node {
+public:
+    int data;
+    node* next = NULL;
+
+    node() {
+        data = 0;
+        next = NULL;
+    }
+
+    node(int data) {
+        this->data = data;
+        this->next = NULL;
+    }
+};
+class singlyLinkedList {
+public:
+    node* head;
+    node* tail;
+    singlyLinkedList() {
+        head = NULL;
+        tail = NULL;
+    }
+    singlyLinkedList(node* &head, node* &tail) {
+        this->head = head;
+        this->tail = tail;
+    }
+
+    void insertAtHead(int data) {
+        node* temp = new node(data);
+        temp->next = head;
+        head = temp;
+    }
+
+    bool isPalindrome() {
+        node* slow=head;
+        node* fast=head;
+        node* prev=NULL;
+        node* next=NULL;
+
+        while (fast != NULL && fast->next != NULL) {
+            fast=fast->next->next;
+            next=slow->next;
+            slow->next = prev;
+            prev=slow;
+            slow=next;
+        }
+        if (fast!=NULL) {
+            slow=slow->next;
+        }
+
+        while (slow!=NULL) {
+            if (slow->data!=prev->data) {
+                return false;
+            }
+            slow=slow->next;
+            prev=prev->next;
+        }
+        return true;
+    }
+
+    void printData() {
+        node* temp=head;
+        while (temp!=NULL) {
+            cout<<temp->data<<endl;
+            temp=temp->next;
+        }
+        cout << endl;   
+        if (isPalindrome()) {
+            cout<<"It is a palindrome"<<endl;
+        } else {
+            cout<<"It is not a palindrome"<<endl;
+        }
+    }
+};
+int main() {
+    node* node1 = new node(2);
+    singlyLinkedList s1(node1, node1);
+    s1.insertAtHead(1);
+    s1.insertAtHead(0);
+    s1.insertAtHead(1);
+    s1.insertAtHead(2);
+
+    s1.printData();
+
+    return 0;
+}
+
